@@ -29,9 +29,17 @@
                 <div class="p-6">
 
                     <div class="mb-4">
-                        <span class="inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm px-2 py-1 rounded">
-                            {{ $post->status->value }}
-                        </span>
+                        <form action="{{ route('posts.publish', $post->id) }}" method="POST" class="inline">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit"
+                                    class="inline-block text-sm px-2 py-1 rounded
+                                        {{ $post->status->value === 'published'
+                                            ? 'bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200'
+                                            : 'bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300' }}">
+                                {{ $post->status->value === 'published' ? '✓ Published — click to unpublish' : 'Draft — click to publish' }}
+                            </button>
+                        </form>
                     </div>
 
                     <div class="text-gray-700 dark:text-gray-300 leading-relaxed">

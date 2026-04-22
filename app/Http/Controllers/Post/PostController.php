@@ -7,6 +7,7 @@ use App\Application\Post\CreatePost\CreatePostUseCase;
 use App\Application\Post\DeletePost\DeletePostUseCase;
 use App\Application\Post\GetAllPosts\GetAllPostsUseCase;
 use App\Application\Post\GetPost\GetPostUseCase;
+use App\Application\Post\PublishPost\PublishPostUseCase;
 use App\Application\Post\UpdatePost\UpdatePostDTO;
 use App\Application\Post\UpdatePost\UpdatePostUseCase;
 use App\Http\Controllers\Controller;
@@ -26,6 +27,7 @@ class PostController extends Controller
         private DeletePostUseCase $deletePost,
         private GetPostUseCase    $getPost,
         private GetAllPostsUseCase $getAllPosts,
+        private PublishPostUseCase $publishPost
     )
     {}
     // request -> method -> data to dto (if necessary) 
@@ -90,5 +92,15 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')
             ->with('success', 'Post deleted successfully.');
+    }
+
+    // non resource method
+
+    public function publish(int $id): RedirectResponse
+    {
+        $this->publishPost->execute($id);
+
+        return redirect()->back()
+                ->with('success', 'Post status update successfully.');
     }
 }

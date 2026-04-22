@@ -16,11 +16,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             @if(session('success'))
-                <div class="mb-4
-                            bg-gray-100 dark:bg-gray-700
-                            border border-gray-300 dark:border-gray-600
-                            text-gray-800 dark:text-gray-100
-                            px-4 py-3 rounded">
+                <div class="mb-4 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded">
                     {{ session('success') }}
                 </div>
             @endif
@@ -50,6 +46,17 @@
                                class="bg-yellow-100 dark:bg-yellow-900 hover:bg-yellow-200 dark:hover:bg-yellow-800 text-yellow-700 dark:text-yellow-300 font-bold py-1 px-3 rounded text-sm">
                                 Edit
                             </a>
+                            <form action="{{ route('posts.publish', $post->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                        class="font-bold py-1 px-3 rounded text-sm
+                                            {{ $post->status->value === 'published'
+                                                ? 'bg-green-100 dark:bg-green-950 hover:bg-green-200 dark:hover:bg-green-900 text-green-700 dark:text-green-300'
+                                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200' }}">
+                                    {{ $post->status->value === 'published' ? 'Unpublish' : 'Publish' }}
+                                </button>
+                            </form>
                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
